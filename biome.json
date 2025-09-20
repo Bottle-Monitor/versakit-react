@@ -1,10 +1,15 @@
 {
 	"formatter": {
-	  "enabled": true,
-	  "indentStyle": "tab",
-	  "lineWidth": 120
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 120
 	},
 	"linter": {
-	  "enabled": true
+		"enabled": true
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded"
+		}
 	}
-  }
+}

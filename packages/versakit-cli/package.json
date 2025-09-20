@@ -1,8 +1,8 @@
 {
-  "name": "@versakit/cli",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": []
+	"name": "@versakit/cli",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {},
+	"keywords": []
 }

@@ -1,14 +1,36 @@
 {
-  "name": "versakit-react",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.15.0",
-  "devDependencies": {
-    "@biomejs/biome": "2.2.4"
-  }
+	"name": "versakit-react",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"prepare": "lefthook install",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write --unsafe .",
+		"format": "biome format --write .",
+		"commitlint": "commitlint --from HEAD~1 --to HEAD --verbose"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.15.0",
+	"devDependencies": {
+		"@biomejs/biome": "2.2.4",
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"lefthook": "^1.13.1",
+		"lint-staged": "^16.1.6"
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx}": [
+			"biome check --write --unsafe",
+			"biome format --write"
+		],
+		"*.{json,md,yml,yaml}": [
+			"biome format --write"
+		],
+		"package.json": [
+			"biome format --write"
+		]
+	}
 }

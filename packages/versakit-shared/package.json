@@ -1,8 +1,8 @@
 {
-  "name": "@versakit/shared",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": []
+	"name": "@versakit/shared",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {},
+	"keywords": []
 }

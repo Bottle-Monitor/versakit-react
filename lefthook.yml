@@ -1,0 +1,25 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-staged:
+      run: pnpm lint-staged
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}
+
+pre-push:
+  parallel: true
+  commands:
+    packages-build:
+      run: pnpm -r build
+      skip:
+        - merge
+        - rebase
+    packages-test:
+      run: pnpm -r test
+      skip:
+        - merge
+        - rebase
