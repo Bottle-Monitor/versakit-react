@@ -54,17 +54,6 @@ storybook-static/
 # Stylelint cache
 .stylelintcache
 
-# IDE
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/tasks.json
-.idea/
-*.swp
-*.swo
-*~
-
 # OS generated files
 .DS_Store
 .DS_Store?
@@ -78,15 +67,6 @@ Thumbs.db
 tmp/
 temp/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
 # Package managers
 .yarn/cache
