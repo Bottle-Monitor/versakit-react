@@ -16,21 +16,8 @@
 		"noFallthroughCasesInSwitch": true,
 
 		"baseUrl": ".",
-		"paths": {
-			"@versakit/components": ["./packages/versakit-components/src"],
-			"@versakit/components/*": ["./packages/versakit-components/src/*"],
-			"@versakit/cli": ["./packages/versakit-cli/src"],
-			"@versakit/cli/*": ["./packages/versakit-cli/src/*"],
-			"@versakit/shared": ["./packages/versakit-shared/src"],
-			"@versakit/shared/*": ["./packages/versakit-shared/src/*"]
-		}
+		"paths": {}
 	},
-	"include": [
-		"packages/*/src/**/*",
-		"packages/*/src/**/*.ts",
-		"packages/*/src/**/*.tsx",
-		"packages/**/*.ts",
-		"packages/**/*.tsx"
-	],
+	"include": [],
 	"exclude": ["node_modules", "**/node_modules", "**/dist", "**/build", "**/lib"]
 }
