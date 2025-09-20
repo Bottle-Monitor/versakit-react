@@ -8,7 +8,9 @@
 		"lint": "biome check .",
 		"lint:fix": "biome check --write --unsafe .",
 		"format": "biome format --write .",
-		"commitlint": "commitlint --from HEAD~1 --to HEAD --verbose"
+		"commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
+		"type-check": "tsc --noEmit",
+		"type-check:watch": "tsc --noEmit --watch"
 	},
 	"keywords": [],
 	"author": "",
@@ -18,8 +20,12 @@
 		"@biomejs/biome": "2.2.4",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
+		"@types/node": "^24.5.2",
+		"@types/react": "^19.1.13",
+		"@types/react-dom": "^19.1.9",
 		"lefthook": "^1.13.1",
-		"lint-staged": "^16.1.6"
+		"lint-staged": "^16.1.6",
+		"typescript": "^5.9.2"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": [
