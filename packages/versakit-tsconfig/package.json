@@ -1,0 +1,19 @@
+{
+	"name": "@versakit/tsconfig",
+	"version": "1.0.0",
+	"description": "Shared TypeScript configurations for Versakit monorepo",
+	"main": "index.js",
+	"files": [
+		"*.json"
+	],
+	"keywords": [
+		"typescript",
+		"tsconfig",
+		"versakit"
+	],
+	"author": "Versakit Team",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^5.0.0"
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./base.json",
+	"compilerOptions": {
+		"lib": ["ES2020"],
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"target": "ES2020",
+		"allowImportingTsExtensions": false,
+		"noEmit": false,
+		"outDir": "./dist",
+		"rootDir": "./src"
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "**/node_modules", "**/dist", "**/build"]
+}
