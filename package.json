@@ -18,6 +18,11 @@
 		"commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
 		"type-check": "tsc --noEmit",
 		"type-check:watch": "tsc --noEmit --watch",
+		"test": "vitest",
+		"test:ui": "vitest --ui",
+		"test:run": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"test:components": "vitest --config vitest.config.ts packages/versakit-components",
 		"info": "node script/project-info.js"
 	},
 	"keywords": [],
