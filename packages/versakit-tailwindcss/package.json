@@ -1,0 +1,26 @@
+{
+	"name": "@versakit/tailwindcss",
+	"version": "1.0.0",
+	"description": "Tailwind CSS configuration and utilities for Versakit projects",
+	"main": "index.js",
+	"files": [
+		"postcss.config.mjs",
+		"globals.css",
+		"index.js"
+	],
+	"keywords": [
+		"tailwindcss",
+		"postcss",
+		"versakit",
+		"css"
+	],
+	"author": "Versakit Team",
+	"license": "MIT",
+	"dependencies": {
+		"@tailwindcss/postcss": "^4.1.13",
+		"tailwindcss": "^4.1.13"
+	},
+	"peerDependencies": {
+		"postcss": "^8.5.6"
+	}
+}
