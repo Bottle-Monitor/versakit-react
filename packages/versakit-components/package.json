@@ -24,12 +24,7 @@
 		"@versakit/shared": "workspace:*",
 		"tailwind-variants": "^3.1.1"
 	},
-	"scripts": {
-		"test": "vitest",
-		"test:ui": "vitest --ui",
-		"test:run": "vitest run",
-		"test:coverage": "vitest run --coverage"
-	},
+	"scripts": {},
 	"devDependencies": {
 		"@storybook/react": "^8.0.0"
 	},

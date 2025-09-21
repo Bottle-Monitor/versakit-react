@@ -19,7 +19,7 @@ pre-push:
         - merge
         - rebase
     packages-test:
-      run: cd packages/versakit-components && pnpm run test:run
+      run: pnpm run test:run
       skip:
         - merge
         - rebase
