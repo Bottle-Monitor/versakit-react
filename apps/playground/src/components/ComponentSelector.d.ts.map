@@ -1,0 +1,1 @@
+{"version":3,"file":"ComponentSelector.d.ts","sourceRoot":"","sources":["ComponentSelector.tsx"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,mBAAmB,CAAA;AAEnD,UAAU,sBAAsB;IAC/B,eAAe,EAAE,UAAU,CAAA;IAC3B,eAAe,EAAE,CAAC,OAAO,EAAE,UAAU,KAAK,IAAI,CAAA;CAC9C;AAED,wBAAgB,iBAAiB,CAAC,EAAE,eAAe,EAAE,eAAe,EAAE,EAAE,sBAAsB,2CAiD7F"}
