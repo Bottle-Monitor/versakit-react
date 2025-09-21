@@ -5,6 +5,11 @@
 	"main": "index.js",
 	"scripts": {
 		"prepare": "lefthook install",
+		"build": "rollup -c",
+		"build:watch": "rollup -c --watch",
+		"build:shared": "rollup -c --environment PACKAGE:shared",
+		"build:components": "rollup -c --environment PACKAGE:components",
+		"clean": "rimraf packages/*/dist",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write --unsafe .",
 		"format": "biome format --write .",
@@ -20,11 +25,18 @@
 		"@biomejs/biome": "2.2.4",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
+		"@rollup/plugin-commonjs": "^28.0.1",
+		"@rollup/plugin-node-resolve": "^16.0.0",
+		"@rollup/plugin-typescript": "^12.1.1",
 		"@types/node": "^24.5.2",
 		"@types/react": "^19.1.13",
 		"@types/react-dom": "^19.1.9",
 		"lefthook": "^1.13.1",
 		"lint-staged": "^16.1.6",
+		"rimraf": "^6.0.1",
+		"rollup": "^4.29.1",
+		"rollup-plugin-dts": "^6.1.1",
+		"rollup-plugin-peer-deps-external": "^2.2.4",
 		"typescript": "^5.9.2"
 	},
 	"lint-staged": {
@@ -41,7 +53,10 @@
 	},
 	"dependencies": {
 		"@tailwindcss/postcss": "^4.1.13",
+		"clsx": "^2.1.1",
 		"postcss": "^8.5.6",
+		"tailwind-merge": "^3.3.1",
+		"tailwind-variants": "^3.1.1",
 		"tailwindcss": "^4.1.13"
 	}
 }
