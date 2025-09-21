@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"preinstall": "node script/enforce-pnpm.js",
+		"postinstall": "node script/project-info.js",
 		"prepare": "lefthook install",
 		"build": "rollup -c",
 		"build:watch": "rollup -c --watch",
@@ -16,7 +17,8 @@
 		"format": "biome format --write .",
 		"commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
 		"type-check": "tsc --noEmit",
-		"type-check:watch": "tsc --noEmit --watch"
+		"type-check:watch": "tsc --noEmit --watch",
+		"info": "node script/project-info.js"
 	},
 	"keywords": [],
 	"author": "",
