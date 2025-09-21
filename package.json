@@ -4,6 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"preinstall": "node script/enforce-pnpm.js",
 		"prepare": "lefthook install",
 		"build": "rollup -c",
 		"build:watch": "rollup -c --watch",
@@ -44,7 +45,7 @@
 			"biome check --write --unsafe",
 			"biome format --write"
 		],
-		"*.{json,md,yml,yaml}": [
+		"*.{json,md}": [
 			"biome format --write"
 		],
 		"package.json": [
