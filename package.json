@@ -23,6 +23,9 @@
 		"test:run": "vitest run",
 		"test:coverage": "vitest run --coverage",
 		"test:components": "vitest --config vitest.config.ts packages/versakit-components",
+		"playground:dev": "pnpm --filter @versakit/playground dev",
+		"playground:build": "pnpm --filter @versakit/playground build",
+		"playground:preview": "pnpm --filter @versakit/playground preview",
 		"info": "node script/project-info.js"
 	},
 	"keywords": [],
