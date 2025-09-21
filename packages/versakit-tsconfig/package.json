@@ -6,6 +6,9 @@
 	"files": [
 		"*.json"
 	],
+	"scripts": {
+		"test": "echo \"No tests for tsconfig package\""
+	},
 	"keywords": [
 		"typescript",
 		"tsconfig",

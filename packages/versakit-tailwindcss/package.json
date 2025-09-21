@@ -8,6 +8,9 @@
 		"globals.css",
 		"index.js"
 	],
+	"scripts": {
+		"test": "echo \"No tests for tailwindcss configuration package\""
+	},
 	"keywords": [
 		"tailwindcss",
 		"postcss",

@@ -15,6 +15,9 @@
 	"files": [
 		"dist"
 	],
+	"scripts": {
+		"test": "echo \"No tests for shared utilities package\""
+	},
 	"keywords": [
 		"react",
 		"components",
