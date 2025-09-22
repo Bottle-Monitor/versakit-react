@@ -73,7 +73,46 @@ export default function App() {
 		title: "Button Sizes",
 		description: "Different sizes available for buttons",
 		code: `import React from 'react'
-import { Button } from '@versakit/components'
+
+// Inline Button component for demo
+const Button = ({ 
+  children, 
+  variant = 'default', 
+  size = 'default',
+  onClick,
+  disabled = false,
+  className,
+  ...props 
+}) => {
+  const baseStyles = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none'
+  
+  const variants = {
+    default: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
+    ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+    destructive: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    link: 'text-blue-600 hover:text-blue-800 underline-offset-4 hover:underline focus:ring-blue-500'
+  }
+  
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    default: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg'
+  }
+  
+  return (
+    <button
+      className={\`\${baseStyles} \${variants[variant]} \${sizes[size]} \${className || ''}\`}
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
 
 export default function App() {
   return (
@@ -117,7 +156,6 @@ export default function App() {
 		title: "Disabled State",
 		description: "Buttons in disabled state",
 		code: `import React, { useState } from 'react'
-import { Button } from '@versakit/components'
 
 export default function App() {
   const [isDisabled, setIsDisabled] = useState(true)
@@ -180,7 +218,6 @@ export default function App() {
 		title: "Loading State",
 		description: "Buttons with loading indicators",
 		code: `import React, { useState } from 'react'
-import { Button } from '@versakit/components'
 
 export default function App() {
   const [loading1, setLoading1] = useState(false)
@@ -256,7 +293,46 @@ export default function App() {
 		title: "Buttons with Icons",
 		description: "Buttons combined with icons and emojis",
 		code: `import React from 'react'
-import { Button } from '@versakit/components'
+
+// Inline Button component for demo
+const Button = ({ 
+  children, 
+  variant = 'default', 
+  size = 'default',
+  onClick,
+  disabled = false,
+  className,
+  ...props 
+}) => {
+  const baseStyles = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none'
+  
+  const variants = {
+    default: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
+    ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+    destructive: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    link: 'text-blue-600 hover:text-blue-800 underline-offset-4 hover:underline focus:ring-blue-500'
+  }
+  
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    default: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg'
+  }
+  
+  return (
+    <button
+      className={\`\${baseStyles} \${variants[variant]} \${sizes[size]} \${className || ''}\`}
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
 
 export default function App() {
   return (

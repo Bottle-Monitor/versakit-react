@@ -1,5 +1,69 @@
 @import '@versakit/tailwindcss/globals.css';
 
+/* 自定义滚动条样式 */
+* {
+  /* Firefox 滚动条 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+}
+
+/* WebKit 浏览器滚动条 */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+/* 只有在 hover 容器时才显示滚动条 */
+*:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+  background: rgba(156, 163, 175, 0.4);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7) !important;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 针对深色背景的滚动条优化 */
+.dark-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark-scrollbar:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* 让滚动条在滚动时也显示 */
+*::-webkit-scrollbar-thumb:active {
+  opacity: 1;
+  background: rgba(156, 163, 175, 0.8);
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -12,4 +76,47 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* 修复预览区域内容被截取的问题 */
+.sp-preview-container {
+  overflow: auto !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* 确保预览iframe能够正确处理内容宽度 */
+.sp-preview-iframe {
+  max-width: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+/* 优化 Sandpack 预览区域 */
+.sp-preview {
+  height: 100% !important;
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/* 确保预览内容能够正确显示 */
+.sp-preview-iframe-container {
+  height: 100% !important;
+  width: 100% !important;
+  overflow: auto !important;
+}
+
+/* 优化预览区域的滚动行为 */
+.sp-preview-container .sp-preview {
+  overflow: auto !important;
+}
+
+/* 确保预览内容不会被截取 */
+.sp-preview-iframe iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  min-height: 100% !important;
 }
