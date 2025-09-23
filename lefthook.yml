@@ -13,11 +13,6 @@ commit-msg:
 pre-push:
   parallel: true
   commands:
-    packages-build:
-      run: pnpm -r build
-      skip:
-        - merge
-        - rebase
     packages-test:
       run: pnpm run test:run
       skip:
