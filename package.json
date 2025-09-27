@@ -26,6 +26,8 @@
 		"playground:dev": "pnpm --filter @versakit/playground dev",
 		"playground:build": "pnpm --filter @versakit/playground build",
 		"playground:preview": "pnpm --filter @versakit/playground preview",
+		"build-storybook": "pnpm --filter @versakit/storybook build-storybook",
+		"storybook:dev": "pnpm --filter @versakit/storybook storybook",
 		"info": "node script/project-info.js"
 	},
 	"keywords": [],

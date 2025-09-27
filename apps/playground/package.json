@@ -18,7 +18,6 @@
 		"@versakit/components": "workspace:*",
 		"@versakit/shared": "workspace:*",
 		"@versakit/tailwindcss": "workspace:*",
-		"lucide-react": "^0.454.0",
 		"clsx": "^2.1.1",
 		"tailwind-merge": "^3.3.1"
 	},

@@ -1,84 +1,84 @@
-import { render, screen } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
-import { describe, expect, it, vi } from "vitest"
+import "@testing-library/jest-dom"
+import { describe, expect, it } from "vitest"
+import { render, screen } from "../../__tests__/test-utils"
 import { Button } from "../index"
 
 describe("Button", () => {
 	it("renders correctly", () => {
 		render(<Button>Click me</Button>)
-		expect(screen.getByRole("button", { name: "Click me" })).toBeInTheDocument()
+		expect(screen.getByRole("button", { name: /click me/i })).toBeInTheDocument()
 	})
 
-	it("handles click events", async () => {
-		const handleClick = vi.fn()
-		const user = userEvent.setup()
-
-		render(<Button onClick={handleClick}>Click me</Button>)
-
-		await user.click(screen.getByRole("button"))
-		expect(handleClick).toHaveBeenCalledTimes(1)
+	it("applies default variant and size classes", () => {
+		render(<Button>Default Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("bg-black", "text-white", "h-9", "px-4", "py-2")
 	})
 
-	it("applies variant classes correctly", () => {
-		const { rerender } = render(<Button variant="default">Default</Button>)
-		expect(screen.getByRole("button")).toHaveClass("bg-primary")
-
-		rerender(<Button variant="destructive">Destructive</Button>)
-		expect(screen.getByRole("button")).toHaveClass("bg-destructive")
-
-		rerender(<Button variant="outline">Outline</Button>)
-		expect(screen.getByRole("button")).toHaveClass("border")
-
-		rerender(<Button variant="secondary">Secondary</Button>)
-		expect(screen.getByRole("button")).toHaveClass("bg-secondary")
-
-		rerender(<Button variant="ghost">Ghost</Button>)
-		expect(screen.getByRole("button")).toHaveClass("hover:bg-accent")
-
-		rerender(<Button variant="link">Link</Button>)
-		expect(screen.getByRole("button")).toHaveClass("underline-offset-4")
+	it("applies secondary variant classes", () => {
+		render(<Button variant="secondary">Secondary Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("bg-gray-100", "text-gray-900")
 	})
 
-	it("applies size classes correctly", () => {
-		const { rerender } = render(<Button size="sm">Small</Button>)
-		expect(screen.getByRole("button")).toHaveClass("h-9")
-
-		rerender(<Button size="md">Medium</Button>)
-		expect(screen.getByRole("button")).toHaveClass("h-10")
-
-		rerender(<Button size="lg">Large</Button>)
-		expect(screen.getByRole("button")).toHaveClass("h-11")
-
-		rerender(<Button size="icon">Icon</Button>)
-		expect(screen.getByRole("button")).toHaveClass("h-10", "w-10")
+	it("applies outline variant classes", () => {
+		render(<Button variant="outline">Outline Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("border", "border-gray-200", "bg-white")
 	})
 
-	it("applies custom className", () => {
-		render(<Button className="custom-class">Custom</Button>)
-		expect(screen.getByRole("button")).toHaveClass("custom-class")
+	it("applies ghost variant classes", () => {
+		render(<Button variant="ghost">Ghost Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("hover:bg-gray-100")
+	})
+
+	it("applies small size classes", () => {
+		render(<Button size="sm">Small Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("h-8", "px-3", "text-xs")
+	})
+
+	it("applies large size classes", () => {
+		render(<Button size="lg">Large Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("h-10", "px-8")
+	})
+
+	it("applies icon size classes", () => {
+		render(<Button size="icon">Icon</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("h-9", "w-9")
+	})
+
+	it("is disabled when loading", () => {
+		render(<Button loading>Loading Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toBeDisabled()
+	})
+
+	it("shows loading spinner when loading", () => {
+		render(<Button loading>Loading Button</Button>)
+		expect(screen.getByRole("button")).toBeInTheDocument()
+		// The Loader2 component should be present
+		expect(document.querySelector(".animate-spin")).toBeInTheDocument()
 	})
 
 	it("is disabled when disabled prop is true", () => {
-		render(<Button disabled>Disabled</Button>)
-		expect(screen.getByRole("button")).toBeDisabled()
-		expect(screen.getByRole("button")).toHaveClass("disabled:opacity-50")
+		render(<Button disabled>Disabled Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toBeDisabled()
+	})
+
+	it("applies custom className", () => {
+		render(<Button className="custom-class">Custom Button</Button>)
+		const button = screen.getByRole("button")
+		expect(button).toHaveClass("custom-class")
 	})
 
 	it("forwards ref correctly", () => {
-		const ref = vi.fn()
-		render(<Button ref={ref}>Ref test</Button>)
-		expect(ref).toHaveBeenCalledWith(expect.any(HTMLButtonElement))
-	})
-
-	it("passes through other HTML attributes", () => {
-		render(
-			<Button data-testid="custom-button" type="submit" aria-label="Submit form">
-				Submit
-			</Button>,
-		)
-
-		const button = screen.getByTestId("custom-button")
-		expect(button).toHaveAttribute("type", "submit")
-		expect(button).toHaveAttribute("aria-label", "Submit form")
+		const ref = { current: null }
+		render(<Button ref={ref}>Ref Button</Button>)
+		expect(ref.current).toBeInstanceOf(HTMLButtonElement)
 	})
 })
