@@ -5,7 +5,6 @@
 	"main": "index.js",
 	"scripts": {
 		"preinstall": "node script/enforce-pnpm.js",
-		"postinstall": "node script/project-info.js",
 		"prepare": "lefthook install",
 		"build": "rollup -c",
 		"build:watch": "rollup -c --watch",
