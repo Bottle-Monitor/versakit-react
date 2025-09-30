@@ -1,7 +1,7 @@
 packages:
-  - storybook
   - packages/*
   - apps/*
+  - example
 
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
