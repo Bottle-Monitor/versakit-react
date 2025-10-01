@@ -35,3 +35,22 @@ export {
 	cardTitleVariants,
 	cardVariants,
 } from "./card"
+export type {
+	PopoverArrowProps,
+	PopoverCloseProps,
+	PopoverContentProps,
+	PopoverProps,
+	PopoverTriggerProps,
+} from "./popover"
+export {
+	Popover,
+	PopoverAnchor,
+	PopoverArrow,
+	PopoverClose,
+	PopoverContent,
+	PopoverPortal,
+	PopoverTrigger,
+	popoverArrowVariants,
+	popoverCloseVariants,
+	popoverContentVariants,
+} from "./popover"
