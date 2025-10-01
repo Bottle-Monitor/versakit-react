@@ -36,6 +36,37 @@ export {
 	cardVariants,
 } from "./card"
 export type {
+	DrawerCloseProps,
+	DrawerContentProps,
+	DrawerDescriptionProps,
+	DrawerFooterProps,
+	DrawerHeaderProps,
+	DrawerOverlayProps,
+	DrawerPortalProps,
+	DrawerProps,
+	DrawerTitleProps,
+	DrawerTriggerProps,
+} from "./drawer"
+export {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerOverlay,
+	DrawerPortal,
+	DrawerTitle,
+	DrawerTrigger,
+	drawerCloseVariants,
+	drawerContentVariants,
+	drawerDescriptionVariants,
+	drawerFooterVariants,
+	drawerHeaderVariants,
+	drawerOverlayVariants,
+	drawerTitleVariants,
+} from "./drawer"
+export type {
 	PopoverArrowProps,
 	PopoverCloseProps,
 	PopoverContentProps,
