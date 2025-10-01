@@ -85,3 +85,20 @@ export {
 	popoverCloseVariants,
 	popoverContentVariants,
 } from "./popover"
+export type {
+	TooltipArrowProps,
+	TooltipContentProps,
+	TooltipProps,
+	TooltipProviderProps,
+	TooltipTriggerProps,
+} from "./tooltip"
+export {
+	Tooltip,
+	TooltipArrow,
+	TooltipContent,
+	TooltipPortal,
+	TooltipProvider,
+	TooltipTrigger,
+	tooltipArrowVariants,
+	tooltipContentVariants,
+} from "./tooltip"
