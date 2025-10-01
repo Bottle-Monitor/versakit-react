@@ -1,6 +1,6 @@
 {
 	"name": "versakit-react",
-	"version": "1.0.0",
+	"version": "0.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -62,7 +62,7 @@
 			"biome check --write --unsafe",
 			"biome format --write"
 		],
-		"*.{json,md}": [
+		"*.json": [
 			"biome format --write"
 		],
 		"package.json": [
