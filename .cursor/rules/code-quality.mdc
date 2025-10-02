@@ -1,0 +1,213 @@
+---
+globs: *.{ts,tsx,js,jsx,json}
+description: Code quality standards using Biome for linting and formatting
+---
+# Code Quality and Formatting Standards
+
+## Linter and Formatter: Biome
+This project uses **Biome** (NOT ESLint or Prettier) for linting and formatting.
+
+Configuration: [biome.json](mdc:biome.json)
+
+## Formatting Rules
+
+### Indentation
+- **Use TABS** (not spaces)
+- Configured in Biome: `"indentStyle": "tab"`
+
+### Line Width
+- Maximum line width: **120 characters**
+- Configured in Biome: `"lineWidth": 120`
+
+### Semicolons
+- Use semicolons **only when needed** (asNeeded)
+- Configured in Biome: `"semicolons": "asNeeded"`
+
+```typescript
+// Good
+import { Button } from "./button"
+const x = 5
+
+// Avoid
+import { Button } from "./button";
+const x = 5;
+```
+
+### Quotes
+- Prefer **double quotes** for strings
+- Use template literals for interpolation
+
+```typescript
+// Good
+const message = "Hello World"
+const greeting = `Hello ${name}`
+
+// Avoid
+const message = 'Hello World'
+```
+
+## Code Quality Commands
+
+```bash
+pnpm lint           # Check code quality
+pnpm lint:fix       # Auto-fix issues
+pnpm format         # Format code
+```
+
+## Pre-commit Hooks
+
+### Lefthook
+Git hooks configured via [lefthook.yml](mdc:lefthook.yml)
+
+### Lint-Staged
+Automatically formats staged files:
+```json
+{
+  "*.{js,jsx,ts,tsx}": [
+    "biome check --write --unsafe",
+    "biome format --write"
+  ],
+  "*.json": ["biome format --write"]
+}
+```
+
+## Commit Message Convention
+Uses **Commitlint** with conventional commits.
+
+Configuration: [commitlint.config.cjs](mdc:commitlint.config.cjs)
+
+### Format
+```
+type(scope): subject
+
+body
+
+footer
+```
+
+### Types
+- **feat**: New feature
+- **fix**: Bug fix
+- **docs**: Documentation changes
+- **style**: Code style changes (formatting, etc.)
+- **refactor**: Code refactoring
+- **test**: Adding or updating tests
+- **chore**: Maintenance tasks
+- **perf**: Performance improvements
+- **ci**: CI/CD changes
+
+### Examples
+```
+feat(button): add loading state support
+
+Add loading prop to Button component with spinner animation.
+
+Closes #123
+```
+
+```
+fix(drawer): correct overlay z-index
+
+The drawer overlay was appearing behind modal dialogs.
+```
+
+## Import Organization
+
+### Order
+1. External dependencies (React, third-party)
+2. Internal workspace packages (@versakit/*)
+3. Relative imports (./*, ../*)
+4. Types (import type)
+
+```typescript
+// External
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+
+// Internal workspace
+import { cn } from "@versakit/shared"
+
+// Icons
+import { X } from "lucide-react"
+
+// Relative
+import type { ButtonProps } from "./button.types"
+import { buttonVariants } from "./button.variants"
+```
+
+## TypeScript Standards
+
+### Strict Mode
+All strict TypeScript flags are enabled via [packages/versakit-tsconfig](mdc:packages/versakit-tsconfig)
+
+### No Any
+- **Avoid `any` type**
+- Use `unknown` for truly unknown types
+- Use proper generic constraints
+
+### Type Imports
+Use `import type` for type-only imports:
+```typescript
+import type { ButtonProps } from "./button.types"
+import type { Meta, StoryObj } from "@storybook/react"
+```
+
+## File Naming
+
+### Components
+- PascalCase for component files: `Button.tsx`, `Drawer.tsx`
+- Or kebab-case for directories: `button/index.tsx`
+
+### Types and Variants
+- `component-name.types.ts`
+- `component-name.variants.ts`
+
+### Tests
+- `component-name.test.tsx`
+- Place in `__test__/` or `__tests__/` directory
+
+### Stories
+- `ComponentName.stories.tsx`
+
+## Code Organization
+
+### Single Responsibility
+Each file should have a single, clear purpose
+
+### DRY Principle
+Don't Repeat Yourself - extract shared logic to [packages/versakit-shared](mdc:packages/versakit-shared)
+
+### Composition Over Inheritance
+Prefer composition patterns (using Radix Slot, etc.)
+
+## Performance Considerations
+
+### React Performance
+- Use `React.forwardRef` for components
+- Memoize expensive computations
+- Avoid unnecessary re-renders
+
+### Bundle Size
+- Tree-shakeable exports
+- Use named exports
+- Avoid large dependencies
+
+## Accessibility (a11y)
+
+### ARIA
+- Maintain proper ARIA attributes
+- Use semantic HTML
+- Support keyboard navigation
+
+### Focus Management
+- Visible focus indicators
+- Logical tab order
+- Focus trapping for modals/drawers
+
+## Type Safety in Tests
+Use proper types in tests:
+```typescript
+import type { ButtonProps } from "../index"
+
+const ref = { current: null } as React.MutableRefObject<HTMLButtonElement | null>
+```

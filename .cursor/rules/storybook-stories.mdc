@@ -1,0 +1,258 @@
+---
+globs: apps/storybook/stories/**/*.stories.tsx
+description: Storybook stories writing patterns for component documentation
+---
+# Storybook Stories Patterns
+
+## Story File Structure
+Stories are located in [apps/storybook/stories/components](mdc:apps/storybook/stories/components):
+```
+apps/storybook/stories/components/
+  └── ComponentName/
+      └── ComponentName.stories.tsx
+```
+
+See example: [apps/storybook/stories/components/Button/Button.stories.tsx](mdc:apps/storybook/stories/components/Button/Button.stories.tsx)
+
+## Basic Story Pattern
+
+```typescript
+import type { Meta, StoryObj } from "@storybook/react"
+import { Component } from "@versakit/components"
+
+const meta = {
+  title: "Components/ComponentName",
+  component: Component,
+  parameters: {
+    layout: "centered",
+  },
+  tags: ["autodocs"],
+  argTypes: {
+    // Define controls
+  },
+} satisfies Meta<typeof Component>
+
+export default meta
+type Story = StoryObj<typeof meta>
+```
+
+## Meta Configuration
+
+### Title
+Use hierarchical naming:
+```typescript
+title: "Components/ComponentName"
+```
+
+### Parameters
+Common parameters:
+```typescript
+parameters: {
+  layout: "centered",  // or "fullscreen", "padded"
+}
+```
+
+### Tags
+Enable auto-documentation:
+```typescript
+tags: ["autodocs"]
+```
+
+### ArgTypes
+Define comprehensive controls:
+```typescript
+argTypes: {
+  variant: {
+    control: { type: "select" },
+    options: ["primary", "secondary", "outline", "ghost"],
+    description: "The visual style variant of the component",
+    table: {
+      type: { summary: "string" },
+      defaultValue: { summary: "primary" },
+    },
+  },
+  size: {
+    control: { type: "select" },
+    options: ["sm", "default", "lg", "icon"],
+    description: "The size of the component",
+    table: {
+      type: { summary: "string" },
+      defaultValue: { summary: "default" },
+    },
+  },
+  disabled: {
+    control: "boolean",
+    description: "Disables the component",
+    table: {
+      type: { summary: "boolean" },
+      defaultValue: { summary: "false" },
+    },
+  },
+}
+```
+
+## Story Types
+
+### 1. Default Story
+```typescript
+export const Default: Story = {
+  args: {
+    children: "Component",
+  },
+}
+```
+
+### 2. Variant Stories
+Create a story for each variant:
+```typescript
+export const Primary: Story = {
+  args: {
+    variant: "primary",
+    children: "Primary Button",
+  },
+}
+
+export const Secondary: Story = {
+  args: {
+    variant: "secondary",
+    children: "Secondary Button",
+  },
+}
+```
+
+### 3. Size Stories
+```typescript
+export const Small: Story = {
+  args: {
+    size: "sm",
+    children: "Small",
+  },
+}
+
+export const Large: Story = {
+  args: {
+    size: "lg",
+    children: "Large",
+  },
+}
+```
+
+### 4. State Stories
+```typescript
+export const Loading: Story = {
+  args: {
+    loading: true,
+    children: "Loading",
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: "Disabled",
+  },
+}
+```
+
+### 5. Showcase Stories
+Display all variants together:
+```typescript
+export const AllVariants: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-4">
+      <Component variant="primary">Primary</Component>
+      <Component variant="secondary">Secondary</Component>
+      <Component variant="outline">Outline</Component>
+      <Component variant="ghost">Ghost</Component>
+    </div>
+  ),
+}
+```
+
+### 6. Interactive Stories
+```typescript
+export const Interactive: Story = {
+  render: () => (
+    <Component onClick={() => alert("Clicked!")}>
+      Click Me!
+    </Component>
+  ),
+}
+```
+
+### 7. Custom Styling
+```typescript
+export const CustomStyling: Story = {
+  args: {
+    className: "bg-gradient-to-r from-purple-500 to-pink-500",
+    children: "Custom Styled",
+  },
+}
+```
+
+### 8. Composition Patterns
+```typescript
+export const AsChild: Story = {
+  render: () => (
+    <Component asChild>
+      <a href="https://example.com">Link Component</a>
+    </Component>
+  ),
+}
+```
+
+## Complex Component Stories
+
+### Multi-Part Components
+For components like Drawer, Card, or Dialog:
+```typescript
+export const BasicUsage: Story = {
+  render: () => (
+    <Drawer>
+      <DrawerTrigger>Open</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Title</DrawerTitle>
+          <DrawerDescription>Description</DrawerDescription>
+        </DrawerHeader>
+        <div>Content</div>
+        <DrawerFooter>
+          <DrawerClose>Close</DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ),
+}
+```
+
+## Documentation Best Practices
+
+### Descriptions
+- Provide clear descriptions for all props
+- Include default values
+- Document constraints or special behaviors
+
+### Organization
+Group related stories:
+- Basic examples first
+- Variants and sizes
+- States (loading, disabled, etc.)
+- Showcases (all variants together)
+- Advanced/complex examples last
+
+### Visual Design
+Use Tailwind classes for story layouts:
+```typescript
+<div className="flex flex-wrap gap-4">
+  <div className="flex items-center gap-4">
+  <div className="space-y-4">
+```
+
+## Running Storybook
+```bash
+pnpm storybook:dev    # Start development server
+pnpm build-storybook  # Build static site
+```
+
+## Storybook Configuration
+Main config: [apps/storybook](mdc:apps/storybook)

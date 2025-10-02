@@ -1,0 +1,195 @@
+---
+globs: packages/versakit-components/src/**/*.test.tsx
+description: Testing guidelines for Versakit components using Vitest and React Testing Library
+---
+# Testing Guidelines
+
+## Test File Structure
+Place tests in `__test__/` or `__tests__/` directory within each component folder:
+```
+component-name/
+  ├── __test__/
+  │   └── component-name.test.tsx
+```
+
+See example: [packages/versakit-components/src/button/__tests__/button.test.tsx](mdc:packages/versakit-components/src/button/__tests__/button.test.tsx)
+
+## Test Setup
+
+### Imports
+```typescript
+import "@testing-library/jest-dom"
+import { describe, expect, it } from "vitest"
+import { render, screen } from "../../__tests__/test-utils"
+import { Component } from "../index"
+```
+
+### Use Custom Render
+**ALWAYS** use the custom render from test-utils:
+```typescript
+import { render, screen } from "../../__tests__/test-utils"
+```
+
+See: [packages/versakit-components/src/__tests__/test-utils.tsx](mdc:packages/versakit-components/src/__tests__/test-utils.tsx)
+
+## Test Structure
+
+### Describe Blocks
+Organize tests by component:
+```typescript
+describe("ComponentName", () => {
+  it("renders correctly", () => {
+    // test
+  })
+  
+  it("applies variant classes", () => {
+    // test
+  })
+})
+```
+
+### Test Categories
+Every component should test:
+
+#### 1. Basic Rendering
+```typescript
+it("renders correctly", () => {
+  render(<Button>Click me</Button>)
+  expect(screen.getByRole("button", { name: /click me/i })).toBeInTheDocument()
+})
+```
+
+#### 2. Variant Styles
+Test each variant applies correct classes:
+```typescript
+it("applies primary variant classes", () => {
+  render(<Button variant="primary">Primary</Button>)
+  const button = screen.getByRole("button")
+  expect(button).toHaveClass("bg-black", "text-white")
+})
+```
+
+#### 3. Size Variations
+```typescript
+it("applies small size classes", () => {
+  render(<Button size="sm">Small</Button>)
+  const button = screen.getByRole("button")
+  expect(button).toHaveClass("h-8", "px-3", "text-xs")
+})
+```
+
+#### 4. Default Props
+```typescript
+it("applies default variant and size classes", () => {
+  render(<Button>Default</Button>)
+  const button = screen.getByRole("button")
+  expect(button).toHaveClass("bg-black", "h-9", "px-4")
+})
+```
+
+#### 5. Custom ClassName
+```typescript
+it("applies custom className", () => {
+  render(<Button className="custom-class">Custom</Button>)
+  expect(screen.getByRole("button")).toHaveClass("custom-class")
+})
+```
+
+#### 6. Ref Forwarding
+```typescript
+it("forwards ref correctly", () => {
+  const ref = { current: null }
+  render(<Button ref={ref}>Ref Button</Button>)
+  expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+})
+```
+
+#### 7. State Tests
+Test interactive states (disabled, loading, etc.):
+```typescript
+it("is disabled when disabled prop is true", () => {
+  render(<Button disabled>Disabled</Button>)
+  expect(screen.getByRole("button")).toBeDisabled()
+})
+```
+
+## Testing Patterns
+
+### Query Priority
+Follow Testing Library best practices:
+1. **getByRole** (preferred for accessibility)
+2. **getByLabelText**
+3. **getByPlaceholderText**
+4. **getByText**
+5. **getByTestId** (last resort)
+
+### Async Testing
+For components with async behavior:
+```typescript
+it("shows tooltip on hover", async () => {
+  const user = userEvent.setup()
+  render(<Tooltip content="Tip">Hover me</Tooltip>)
+  
+  await user.hover(screen.getByText("Hover me"))
+  expect(await screen.findByRole("tooltip")).toBeInTheDocument()
+})
+```
+
+### DOM Queries for Special Cases
+When Testing Library queries are insufficient:
+```typescript
+it("shows loading spinner", () => {
+  render(<Button loading>Loading</Button>)
+  expect(document.querySelector(".animate-spin")).toBeInTheDocument()
+})
+```
+
+### User Interactions
+Use `userEvent` for realistic user interactions:
+```typescript
+import { userEvent } from "@testing-library/user-event"
+
+it("calls onClick when clicked", async () => {
+  const user = userEvent.setup()
+  const handleClick = vi.fn()
+  render(<Button onClick={handleClick}>Click</Button>)
+  
+  await user.click(screen.getByRole("button"))
+  expect(handleClick).toHaveBeenCalledTimes(1)
+})
+```
+
+## Accessibility Testing
+
+### ARIA Attributes
+Test proper ARIA attributes:
+```typescript
+it("has correct ARIA attributes", () => {
+  render(<Dialog aria-labelledby="title">Content</Dialog>)
+  expect(screen.getByRole("dialog")).toHaveAttribute("aria-labelledby", "title")
+})
+```
+
+### Keyboard Navigation
+Test keyboard interactions:
+```typescript
+it("closes on Escape key", async () => {
+  const user = userEvent.setup()
+  render(<Dialog open>Content</Dialog>)
+  
+  await user.keyboard("{Escape}")
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
+})
+```
+
+## Test Commands
+```bash
+pnpm test                # Watch mode
+pnpm test:run            # Run once
+pnpm test:coverage       # With coverage
+pnpm test:ui             # Vitest UI
+pnpm test:components     # Components only
+```
+
+## Configuration
+Tests use [vitest.config.ts](mdc:vitest.config.ts) and [test/setup.ts](mdc:test/setup.ts)

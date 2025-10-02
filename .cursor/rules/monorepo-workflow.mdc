@@ -1,0 +1,255 @@
+---
+alwaysApply: true
+---
+# Monorepo Workflow and Package Management
+
+## pnpm Workspace Structure
+
+This is a **pnpm monorepo** with workspace configuration in [pnpm-workspace.yaml](mdc:pnpm-workspace.yaml)
+
+### Workspace Packages
+```yaml
+packages:
+  - 'packages/*'
+  - 'apps/*'
+  - 'example'
+```
+
+## Package Manager: pnpm ONLY
+
+### Enforcement
+- **NEVER use npm or yarn**
+- Pre-install hook enforces pnpm: [script/enforce-pnpm.js](mdc:script/enforce-pnpm.js)
+- Package manager version locked: `"packageManager": "pnpm@10.15.0"`
+
+### pnpm Commands
+```bash
+# Install dependencies
+pnpm install
+
+# Install for specific workspace
+pnpm --filter @versakit/components install
+
+# Add dependency to workspace
+pnpm --filter @versakit/components add lucide-react
+
+# Add dev dependency
+pnpm --filter @versakit/components add -D vitest
+
+# Run script in workspace
+pnpm --filter @versakit/storybook dev
+```
+
+## Cross-Package Dependencies
+
+### Workspace Protocol
+Use workspace references in package.json:
+```json
+{
+  "dependencies": {
+    "@versakit/shared": "workspace:*",
+    "@versakit/components": "workspace:*"
+  }
+}
+```
+
+### Import from Workspaces
+Always use workspace aliases:
+```typescript
+// Good
+import { cn } from "@versakit/shared"
+import { Button } from "@versakit/components"
+
+// Bad - don't use relative paths across packages
+import { cn } from "../../../versakit-shared/src/utils/cn"
+```
+
+## Build Order
+
+### Dependencies
+Build order matters due to inter-package dependencies:
+1. **@versakit/shared** - No dependencies
+2. **@versakit/components** - Depends on @versakit/shared
+3. **Apps** (storybook, playground) - Depend on components
+
+### Build Commands
+```bash
+# Build all packages
+pnpm build
+
+# Build specific package
+pnpm build:shared
+pnpm build:components
+
+# Watch mode for development
+pnpm build:watch
+```
+
+### Build Configuration
+Rollup configuration: [rollup.config.js](mdc:rollup.config.js)
+
+## Development Workflow
+
+### Local Development
+1. Start with building dependencies:
+   ```bash
+   pnpm build:shared
+   pnpm build:components
+   ```
+
+2. Run development server:
+   ```bash
+   pnpm storybook:dev
+   # or
+   pnpm playground:dev
+   ```
+
+3. Watch mode for package changes:
+   ```bash
+   pnpm build:watch
+   ```
+
+### Adding New Components
+
+1. Create component structure in `packages/versakit-components/src/`:
+   ```
+   new-component/
+   ├── index.tsx
+   ├── new-component.types.ts
+   ├── new-component.variants.ts
+   ├── __test__/
+   │   └── new-component.test.tsx
+   └── README.md
+   ```
+
+2. Export from [packages/versakit-components/src/index.ts](mdc:packages/versakit-components/src/index.ts):
+   ```typescript
+   export { NewComponent } from "./new-component"
+   export type { NewComponentProps } from "./new-component"
+   export { newComponentVariants } from "./new-component"
+   ```
+
+3. Create Storybook story in `apps/storybook/stories/components/NewComponent/`
+
+4. Add tests in component's `__test__/` directory
+
+5. Build and test:
+   ```bash
+   pnpm build:components
+   pnpm test
+   pnpm storybook:dev
+   ```
+
+## TypeScript Configuration
+
+### Shared Configs
+Base TypeScript configs in [packages/versakit-tsconfig](mdc:packages/versakit-tsconfig):
+- `base.json` - Base configuration
+- `library.json` - For library packages
+- `react.json` - For React applications
+- `node.json` - For Node.js scripts
+
+### Usage
+Extend appropriate config in package's tsconfig.json:
+```json
+{
+  "extends": "@versakit/tsconfig/react.json",
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+## Package.json Scripts
+
+### Global Scripts (Root)
+```json
+{
+  "build": "rollup -c",
+  "test": "vitest",
+  "lint": "biome check .",
+  "lint:fix": "biome check --write --unsafe .",
+  "storybook:dev": "pnpm --filter @versakit/storybook storybook",
+  "playground:dev": "pnpm --filter @versakit/playground dev"
+}
+```
+
+### Package-Specific Scripts
+Use `pnpm --filter` to target specific packages:
+```bash
+pnpm --filter @versakit/storybook build-storybook
+pnpm --filter @versakit/playground build
+```
+
+## Publishing Workflow
+
+### Build Before Publish
+1. Clean previous builds: `pnpm clean`
+2. Build all packages: `pnpm build`
+3. Run tests: `pnpm test:run`
+4. Check linting: `pnpm lint`
+5. Verify types: `pnpm type-check`
+
+### Package Outputs
+Each package outputs to its `dist/` directory:
+- `index.esm.js` - ES Module build
+- `index.cjs.js` - CommonJS build
+- `index.d.ts` - TypeScript declarations
+- Source maps (`.map` files)
+
+## Git Workflow
+
+### Pre-commit
+Lefthook runs on pre-commit:
+- Lints staged files
+- Formats code with Biome
+- Runs on staged files only (fast)
+
+### Commit Messages
+Must follow conventional commits (enforced by commitlint):
+```bash
+# Good
+git commit -m "feat(button): add loading state"
+
+# Bad (will be rejected)
+git commit -m "added stuff"
+```
+
+## Troubleshooting
+
+### Stale Builds
+If seeing stale code:
+```bash
+pnpm clean
+pnpm build
+```
+
+### Type Errors
+Regenerate types:
+```bash
+pnpm build
+```
+
+### Dependency Issues
+Clear and reinstall:
+```bash
+rm -rf node_modules
+rm pnpm-lock.yaml
+pnpm install
+```
+
+### Workspace Link Issues
+Verify workspace links:
+```bash
+pnpm install --force
+```
+
+## Performance Tips
+
+### Filtering
+Use `--filter` to target specific packages and speed up commands
+
+### Parallel Builds
+pnpm runs builds in parallel when possible
+
+### Caching
+pnpm uses content-addressable storage for efficient caching

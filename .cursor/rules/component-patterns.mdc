@@ -1,0 +1,114 @@
+---
+globs: packages/versakit-components/src/**/*.tsx
+description: Component development patterns and structure for Versakit components
+---
+# Component Development Patterns
+
+## Component File Structure
+Every component in [packages/versakit-components/src](mdc:packages/versakit-components/src) follows this structure:
+
+```
+component-name/
+  ├── index.tsx              # Component implementation
+  ├── component-name.types.ts   # TypeScript interfaces
+  ├── component-name.variants.ts # Tailwind variants
+  ├── __test__/
+  │   └── component-name.test.tsx
+  └── README.md             # Component documentation
+```
+
+## Component Implementation Pattern
+
+### 1. Imports Order
+```tsx
+// External dependencies (React, Radix UI)
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+
+// Internal utilities
+import { cn } from "@versakit/shared"
+
+// Icons (lucide-react)
+import { X, Loader2 } from "lucide-react"
+
+// Local types and variants
+import type { ComponentProps } from "./component.types"
+import { componentVariants } from "./component.variants"
+```
+
+### 2. Component Definition
+- **ALWAYS use `React.forwardRef`** for DOM components
+- Set `displayName` for better debugging
+- Support className merging with `cn()`
+- Export component, types, and variants
+
+```tsx
+const Component = React.forwardRef<HTMLElement, ComponentProps>(
+  ({ className, variant, size, ...props }, ref) => {
+    return (
+      <element
+        ref={ref}
+        className={cn(componentVariants({ variant, size, className }))}
+        {...props}
+      />
+    )
+  }
+)
+Component.displayName = "Component"
+```
+
+### 3. Exports Pattern
+**ALWAYS export in this order:**
+```tsx
+// 1. Component(s)
+export { Component, ComponentSubpart }
+
+// 2. Types
+export type { ComponentProps, ComponentSubpartProps }
+
+// 3. Variants
+export { componentVariants, componentSubpartVariants }
+```
+
+## Key Patterns
+
+### Radix UI Integration
+- Use Radix UI primitives for accessibility
+- Wrap primitives with custom styling via variants
+- Preserve all Radix ref types: `React.ElementRef<typeof Primitive>`
+
+### Composition with asChild
+For components that support composition, use `@radix-ui/react-slot`:
+```tsx
+const Comp = asChild ? Slot : "button"
+```
+
+### Loading States
+When supporting loading states:
+- Disable the component during loading
+- Show a spinner icon (Loader2 from lucide-react)
+- Loading state conflicts with `asChild` (document this)
+
+### Variant Props
+- Extract variant props from the variants file
+- Use `VariantProps<typeof componentVariants>` from tailwind-variants
+- Always provide `defaultVariants` in the variants file
+
+## Accessibility Requirements
+- Maintain ARIA attributes from Radix primitives
+- Support keyboard navigation
+- Provide focus-visible styles
+- Include proper semantic HTML
+
+## Styling Guidelines
+- Use `tailwind-variants` for variant management (NOT cva)
+- Merge classNames with `cn()` utility
+- Support custom className override
+- Never use inline styles unless absolutely necessary
+
+## Ref Forwarding
+- **All DOM components MUST forward refs**
+- Use correct ref types: `React.ElementRef<typeof Element>` or `HTMLElementType`
+- Test ref forwarding in tests
+
+## Example: See [packages/versakit-components/src/button/index.tsx](mdc:packages/versakit-components/src/button/index.tsx)

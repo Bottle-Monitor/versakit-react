@@ -1,0 +1,96 @@
+---
+globs: packages/versakit-components/src/**/*.types.ts
+description: TypeScript type definitions and conventions
+---
+# TypeScript Conventions for Component Types
+
+## Type File Structure
+Each component has a dedicated `.types.ts` file in its directory.
+
+See examples:
+- [packages/versakit-components/src/button/button.types.ts](mdc:packages/versakit-components/src/button/button.types.ts)
+- [packages/versakit-components/src/drawer/drawer.types.ts](mdc:packages/versakit-components/src/drawer/drawer.types.ts)
+
+## Interface Naming
+- **ALWAYS use PascalCase** with "Props" suffix
+- Match component name: `ButtonProps`, `DrawerContentProps`, etc.
+
+```typescript
+export interface ComponentNameProps extends BaseProps, VariantProps<typeof variants> {
+  // Custom props
+}
+```
+
+## Type Extension Pattern
+
+### For Native HTML Elements
+```typescript
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+  loading?: boolean
+}
+```
+
+### For Radix UI Components
+```typescript
+export interface DrawerContentProps
+  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+    VariantProps<typeof drawerContentVariants> {
+  showOverlay?: boolean
+  side?: "left" | "right" | "top" | "bottom"
+}
+```
+
+## Variant Props Integration
+**ALWAYS** include variant props:
+```typescript
+import type { VariantProps } from "tailwind-variants"
+import type { componentVariants } from "./component.variants"
+
+export interface ComponentProps
+  extends BaseHTMLProps,
+    VariantProps<typeof componentVariants> {
+  // Additional custom props
+}
+```
+
+## Custom Prop Documentation
+Use JSDoc comments for custom props:
+```typescript
+export interface ButtonProps {
+  /**
+   * If true, the button will be rendered as a child within the component.
+   * This child component must be a valid React component.
+   */
+  asChild?: boolean
+  
+  /**
+   * If true, the button will show a loading spinner and be disabled.
+   */
+  loading?: boolean
+}
+```
+
+## Type Exports
+- Export ALL prop interfaces from the component's index file
+- Re-export from main package index: [packages/versakit-components/src/index.ts](mdc:packages/versakit-components/src/index.ts)
+
+## Avoid Type/Interface Duplication
+- Use `type` for unions and aliases
+- Use `interface` for object shapes that can be extended
+- Prefer extending existing React types over redefining
+
+## Generic Type Parameters
+When needed, use descriptive type parameter names:
+```typescript
+export interface GenericComponentProps<TElement extends HTMLElement = HTMLDivElement> {
+  // ...
+}
+```
+
+## Strict Type Safety
+- **NO `any` types** - use `unknown` if type is truly unknown
+- Enable all strict TypeScript flags
+- Use `satisfies` for type checking without widening

@@ -1,0 +1,62 @@
+---
+alwaysApply: true
+---
+# Versakit-React Project Structure
+
+## Overview
+Versakit-React is a modern React component library built as a monorepo using **pnpm workspaces**. The project emphasizes type safety, accessibility, and developer experience.
+
+## Monorepo Structure
+
+### Core Packages (packages/)
+- **@versakit/components** - Main component library ([packages/versakit-components/src](mdc:packages/versakit-components/src))
+- **@versakit/shared** - Shared utilities like `cn()` for className merging ([packages/versakit-shared/src](mdc:packages/versakit-shared/src))
+- **@versakit/tailwindcss** - Tailwind CSS preset and global styles ([packages/versakit-tailwindcss](mdc:packages/versakit-tailwindcss))
+- **@versakit/tsconfig** - Shared TypeScript configurations ([packages/versakit-tsconfig](mdc:packages/versakit-tsconfig))
+- **@versakit/cli** - CLI tool for component generation ([packages/versakit-cli](mdc:packages/versakit-cli))
+
+### Applications (apps/)
+- **@versakit/storybook** - Component documentation and playground ([apps/storybook](mdc:apps/storybook))
+- **@versakit/playground** - Development and testing environment ([apps/playground](mdc:apps/playground))
+- **@versakit/docs** - Documentation site ([apps/docs](mdc:apps/docs))
+
+### Additional Directories
+- **example/** - Example implementation for consumers
+- **script/** - Build and utility scripts
+- **test/** - Global test setup and configuration
+
+## Package Management
+- **ALWAYS use pnpm** - The project enforces pnpm via [script/enforce-pnpm.js](mdc:script/enforce-pnpm.js)
+- **Never use npm or yarn** - This will fail the preinstall check
+- Use pnpm workspaces for cross-package dependencies
+
+## Build System
+- **Rollup** for bundling ([rollup.config.js](mdc:rollup.config.js))
+- Generates both ESM and CJS formats with source maps
+- Type definitions (`.d.ts`) generated automatically
+- Build outputs to `packages/*/dist/`
+
+## Key Commands
+```bash
+pnpm build              # Build all packages
+pnpm build:components   # Build components only
+pnpm test               # Run tests in watch mode
+pnpm test:run           # Run tests once
+pnpm lint               # Check with Biome
+pnpm lint:fix           # Auto-fix with Biome
+pnpm storybook:dev      # Start Storybook
+```
+
+## Technology Stack
+- **React 19** with TypeScript 5
+- **Tailwind CSS v4** with Tailwind Variants for component styling
+- **Radix UI** for accessible primitives
+- **Vitest** for testing with React Testing Library
+- **Biome** for linting and formatting
+- **Lefthook** for git hooks
+- **Commitlint** for conventional commits
+
+## Import Conventions
+- Use workspace aliases: `@versakit/components`, `@versakit/shared`
+- Never use relative imports across packages
+- Within a package, use relative imports for co-located files

@@ -1,0 +1,138 @@
+---
+globs: packages/versakit-components/src/**/*.variants.ts
+description: Tailwind Variants configuration patterns for component styling
+---
+# Tailwind Variants Patterns
+
+## Variants File Structure
+Each component has a dedicated `.variants.ts` file for styling using `tailwind-variants`.
+
+See example: [packages/versakit-components/src/button/button.variants.ts](mdc:packages/versakit-components/src/button/button.variants.ts)
+
+## Basic Pattern
+
+```typescript
+import { tv } from "tailwind-variants"
+
+export const componentVariants = tv({
+  base: [
+    // Base styles - always applied
+    "common-class-1",
+    "common-class-2",
+  ],
+  variants: {
+    variant: {
+      primary: ["style-1", "style-2"],
+      secondary: ["style-3", "style-4"],
+    },
+    size: {
+      sm: "size-small",
+      default: "size-default",
+      lg: "size-large",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+    size: "default",
+  },
+})
+```
+
+## Key Principles
+
+### Use tailwind-variants (NOT cva)
+- Import: `import { tv } from "tailwind-variants"`
+- This project uses `tailwind-variants` library, not `class-variance-authority`
+
+### Base Styles
+- Include all common styles that apply to every variant
+- Use array format for better readability
+- Group related classes logically
+
+```typescript
+base: [
+  "inline-flex items-center justify-center gap-2",
+  "transition-colors focus-visible:outline-none",
+  "disabled:pointer-events-none disabled:opacity-50",
+  "[&_svg]:pointer-events-none [&_svg]:size-4",
+]
+```
+
+### Variant Definitions
+- **variant**: Visual style variations (primary, secondary, outline, ghost, etc.)
+- **size**: Size variations (sm, default, lg, icon, etc.)
+- Use arrays for multiple classes per variant
+
+### Default Variants
+**ALWAYS** specify `defaultVariants`:
+```typescript
+defaultVariants: {
+  variant: "primary",
+  size: "default",
+}
+```
+
+## Styling Guidelines
+
+### Focus States
+Include focus-visible styles for accessibility:
+```typescript
+"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+```
+
+### Disabled States
+Handle disabled state styling:
+```typescript
+"disabled:pointer-events-none disabled:opacity-50"
+```
+
+### Hover States
+Include appropriate hover states:
+```typescript
+"hover:bg-gray-100 hover:text-gray-900"
+```
+
+### SVG Icon Styles
+When components contain icons, style them with child selectors:
+```typescript
+"[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+```
+
+## Color Conventions
+Use semantic color names from Tailwind:
+- Primary actions: `bg-black text-white`
+- Secondary actions: `bg-gray-100 text-gray-900`
+- Borders: `border-gray-200`
+- Focus rings: `ring-black`, `ring-gray-400`
+
+## Transitions
+Include smooth transitions for interactive elements:
+```typescript
+"transition-colors" // For color changes
+"transition-all"    // For multiple properties
+```
+
+## Multi-Part Components
+For components with multiple parts (e.g., Drawer, Card), create separate variants for each part:
+
+```typescript
+export const drawerContentVariants = tv({ /* ... */ })
+export const drawerHeaderVariants = tv({ /* ... */ })
+export const drawerFooterVariants = tv({ /* ... */ })
+export const drawerTitleVariants = tv({ /* ... */ })
+```
+
+See: [packages/versakit-components/src/drawer/drawer.variants.ts](mdc:packages/versakit-components/src/drawer/drawer.variants.ts)
+
+## Export Pattern
+Export all variant definitions:
+```typescript
+export const componentVariants = tv({ /* ... */ })
+export const componentSubpartVariants = tv({ /* ... */ })
+```
+
+## Tailwind CSS v4
+This project uses **Tailwind CSS v4**. Be aware of:
+- Use modern Tailwind class names
+- Leverage CSS cascade layers when needed
+- Follow the Tailwind v4 conventions in [packages/versakit-tailwindcss](mdc:packages/versakit-tailwindcss)
