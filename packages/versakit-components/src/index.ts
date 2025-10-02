@@ -35,6 +35,8 @@ export {
 	cardTitleVariants,
 	cardVariants,
 } from "./card"
+export type { CodeProps } from "./code"
+export { Code, codeVariants } from "./code"
 export type {
 	DrawerCloseProps,
 	DrawerContentProps,
