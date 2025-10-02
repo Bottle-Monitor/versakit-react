@@ -118,6 +118,8 @@ export {
 } from "./popover"
 export type { ProgressProps } from "./progress"
 export { Progress, progressIndicatorVariants, progressRootVariants } from "./progress"
+export type { SpinnerProps } from "./spinner"
+export { Spinner, spinnerBarVariants, spinnerDotVariants, spinnerVariants } from "./spinner"
 export type {
 	TooltipArrowProps,
 	TooltipContentProps,
