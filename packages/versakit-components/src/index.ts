@@ -116,6 +116,8 @@ export {
 	popoverCloseVariants,
 	popoverContentVariants,
 } from "./popover"
+export type { ProgressProps } from "./progress"
+export { Progress, progressIndicatorVariants, progressRootVariants } from "./progress"
 export type {
 	TooltipArrowProps,
 	TooltipContentProps,
