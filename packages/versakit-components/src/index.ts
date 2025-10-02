@@ -69,6 +69,35 @@ export {
 	drawerTitleVariants,
 } from "./drawer"
 export type {
+	ModalCloseProps,
+	ModalContentProps,
+	ModalDescriptionProps,
+	ModalFooterProps,
+	ModalHeaderProps,
+	ModalOverlayProps,
+	ModalProps,
+	ModalTitleProps,
+	ModalTriggerProps,
+} from "./modal"
+export {
+	Modal,
+	ModalClose,
+	ModalContent,
+	ModalDescription,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	ModalTitle,
+	ModalTrigger,
+	modalCloseVariants,
+	modalContentVariants,
+	modalDescriptionVariants,
+	modalFooterVariants,
+	modalHeaderVariants,
+	modalOverlayVariants,
+	modalTitleVariants,
+} from "./modal"
+export type {
 	PopoverArrowProps,
 	PopoverCloseProps,
 	PopoverContentProps,
