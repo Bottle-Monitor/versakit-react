@@ -29,7 +29,8 @@ describe("Tooltip", () => {
 		const trigger = screen.getByText("Hover me")
 		await user.hover(trigger)
 
-		expect(await screen.findByText("Tooltip content")).toBeInTheDocument()
+		const contents = await screen.findAllByText("Tooltip content")
+		expect(contents[0]).toBeInTheDocument()
 	})
 
 	it("hides tooltip content on unhover", async () => {
@@ -45,7 +46,8 @@ describe("Tooltip", () => {
 
 		const trigger = screen.getByText("Hover me")
 		await user.hover(trigger)
-		expect(await screen.findByText("Tooltip content")).toBeInTheDocument()
+		const tooltips = await screen.findAllByText("Tooltip content")
+		expect(tooltips.length).toBeGreaterThan(0)
 
 		await user.unhover(trigger)
 		// Wait for animation
@@ -64,13 +66,13 @@ describe("Tooltip", () => {
 		)
 
 		await user.hover(screen.getByText("Hover me"))
-		const content = await screen.findByText("Primary tooltip")
-		expect(content).toBeInTheDocument()
+		const contents = await screen.findAllByText("Primary tooltip")
+		expect(contents[0]).toBeInTheDocument()
 	})
 
 	it("renders tooltip without arrow when showArrow is false", async () => {
 		const user = userEvent.setup()
-		const { container } = render(
+		render(
 			<TooltipProvider delayDuration={0}>
 				<Tooltip>
 					<TooltipTrigger>Hover me</TooltipTrigger>
@@ -80,10 +82,11 @@ describe("Tooltip", () => {
 		)
 
 		await user.hover(screen.getByText("Hover me"))
-		expect(await screen.findByText("No arrow tooltip")).toBeInTheDocument()
+		const contents = await screen.findAllByText("No arrow tooltip")
+		expect(contents[0]).toBeInTheDocument()
 
-		// Check that arrow is not rendered
-		const arrow = container.querySelector("[data-radix-popper-arrow]")
+		// Check that arrow is not rendered (tooltip is in portal)
+		const arrow = document.querySelector("[data-radix-popper-arrow]")
 		expect(arrow).not.toBeInTheDocument()
 	})
 
@@ -99,7 +102,8 @@ describe("Tooltip", () => {
 		)
 
 		await user.hover(screen.getByText("Hover me"))
-		expect(await screen.findByText("Right side tooltip")).toBeInTheDocument()
+		const contents = await screen.findAllByText("Right side tooltip")
+		expect(contents[0]).toBeInTheDocument()
 	})
 
 	it("applies custom className", async () => {
@@ -114,7 +118,10 @@ describe("Tooltip", () => {
 		)
 
 		await user.hover(screen.getByText("Hover me"))
-		const content = await screen.findByText("Custom tooltip")
+		await screen.findAllByText("Custom tooltip")
+		// Tooltip is rendered in a portal, so use document.querySelector
+		const content = document.querySelector(".custom-tooltip")
+		expect(content).toBeInTheDocument()
 		expect(content).toHaveClass("custom-tooltip")
 	})
 
@@ -139,6 +146,7 @@ describe("Tooltip", () => {
 			</TooltipProvider>,
 		)
 
-		expect(await screen.findByText("Controlled tooltip")).toBeInTheDocument()
+		const contents = await screen.findAllByText("Controlled tooltip")
+		expect(contents[0]).toBeInTheDocument()
 	})
 })
