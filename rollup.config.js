@@ -48,10 +48,15 @@ function createConfig(packagePath) {
 				}),
 			],
 			external: (id) => {
-				// 排除 peer dependencies 和 dependencies
+				// 始终排除 React 和 React-DOM
+				if (id === "react" || id === "react-dom" || id.startsWith("react/") || id.startsWith("react-dom/")) {
+					return true
+				}
+				// 排除 peer dependencies
 				if (packageInfo.peerDependencies && id in packageInfo.peerDependencies) {
 					return true
 				}
+				// 排除 dependencies（除了 workspace 依赖）
 				if (packageInfo.dependencies && id in packageInfo.dependencies) {
 					// 对于 workspace 依赖，不排除
 					if (packageInfo.dependencies[id]?.startsWith("workspace:")) {
